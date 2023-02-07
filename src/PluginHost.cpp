@@ -78,22 +78,6 @@ void PluginHost::prepareToPlay(double sampleRate, int expectedSamplesPerBlock)
 }
 
 /**
-*Releases and deletes the plugin instance.
-*@return A boolean representing wether the instance was successfully released.
-*/
-bool PluginHost::releasePlugin()
-{
-	if (pluginInstantiated)
-	{
-		// TODO: Might need to manually delete editor
-        delete pluginEditor;
-		pluginInstantiated = false;
-		return true;
-	}
-	return false;
-}
-
-/**
 *Processes a block of audio with plugin. If the plugin is not instantiated, the buffer won't be changed.
 *@param buffer A buffer of floats containing audio data to be processed.
 *@param bufferLength The length of the buffer in samples.
@@ -107,55 +91,5 @@ void PluginHost::processBlock(float* buffer, int bufferLength, int numChannels)
 		audioData->setDataToReferTo(&buffer, numChannels, bufferLength);
 		pluginInstance->processBlock(*audioData, *midiData);
 	}
-}
-
-/**
-*Gets the total number of parameters on plugin.
-*@return The number of parameters. Returns 0 if plugin is not instantiated.
-*/
-int PluginHost::getNumParameters()
-{
-	if (pluginInstantiated)
-	{
-		return pluginInstance->getNumParameters();
-	}
-	else
-		return 0;
-}
-
-/**
-*Gets the total number of managed parameters (defined by plugin) on plugin.
-*@return The number of parameters. Returns 0 if plugin is not instantiated or no managed parameters exist.
-*/
-int PluginHost::getNumNamedParameters()
-{
-	if (pluginInstantiated)
-	{
-		for (int i = 0; i < getNumParameters(); i++)
-		{
-			if (getParameterName(i) == "Bypass" || getParameterName(i) == "")
-			{
-				return i;
-			}
-		}
-	}
-	
-	return 0;
-}
-
-/**
-*Gets the name of a plugin parameter at a given index.
-*@param index The parameter index from which to get name.
-*@return The name of the parameter as const char*. If plugin or parameter does not exist, nullptr is returned.
-*/
-String PluginHost::getParameterName(int index)
-{
-	if (pluginInstantiated)
-	{
-		if (index >= 0 && index < getNumParameters())
-			return pluginInstance->getParameterName(index);
-	}
-
-	return "";
 }
 

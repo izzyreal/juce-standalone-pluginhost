@@ -24,13 +24,8 @@ public:
 
 	bool instantiatePlugin(char* xmlPluginDescription, double sampleRate, int bufferSize);
 	void prepareToPlay(double sampleRate, int expectedSamplesPerBlock);
-	bool releasePlugin();
 
-	void processBlock(float* buffer, int bufferLength, int numChannels);
-
-	int getNumParameters();
-	int getNumNamedParameters();
-	juce::String getParameterName(int index);
+    void processBlock(float* buffer, int bufferLength, int numChannels);
 
     juce::AudioProcessorEditor* pluginEditor;
 

@@ -82,7 +82,6 @@ public:
 
 private:
     AppWindow *mainWindow;
-//    std::unique_ptr<PluginScannerSubprocess> storedScannerSubprocess;
 };
 
 START_JUCE_APPLICATION(App)
